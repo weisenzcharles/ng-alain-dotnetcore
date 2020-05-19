@@ -1,12 +1,14 @@
-import { Component, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'header-storage',
   template: `
     <i nz-icon nzType="tool"></i>
-    {{ 'menu.clear.local.storage' | translate }}
+    清理本地缓存
   `,
+  // tslint:disable-next-line: no-host-metadata-property
   host: {
     '[class.d-block]': 'true',
   },

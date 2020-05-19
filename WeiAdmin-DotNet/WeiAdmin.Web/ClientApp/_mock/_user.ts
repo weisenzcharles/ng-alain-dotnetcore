@@ -26,9 +26,9 @@ for (let i = 0; i < total; i += 1) {
 
 function genData(params: any) {
   let ret = [...list];
-  const pi = +params.pi,
-    ps = +params.ps,
-    start = (pi - 1) * ps;
+  const pi = +params.pi;
+  const ps = +params.ps;
+  const start = (pi - 1) * ps;
 
   if (params.no) {
     ret = ret.filter(data => data.no.indexOf(params.no) > -1);
@@ -39,7 +39,7 @@ function genData(params: any) {
 
 function saveData(id: number, value: any) {
   const item = list.find(w => w.id === id);
-  if (!item) return { msg: '无效用户信息' };
+  if (!item) { return { msg: '无效用户信息' }; }
   Object.assign(item, value);
   return { msg: 'ok' };
 }

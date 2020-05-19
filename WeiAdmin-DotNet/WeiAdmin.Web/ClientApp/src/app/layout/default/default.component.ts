@@ -1,24 +1,24 @@
-import {
-  Component,
-  ViewChild,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-  AfterViewInit,
-  OnInit,
-  OnDestroy,
-  ElementRef,
-  Renderer2,
-  Inject,
-} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Router, NavigationEnd, RouteConfigLoadStart, NavigationError, NavigationCancel } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
+import { SettingsService } from '@delon/theme';
+import { updateHostClass } from '@delon/util';
+import { environment } from '@env/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { updateHostClass } from '@delon/util';
-import { SettingsService } from '@delon/theme';
 
-import { environment } from '@env/environment';
 import { SettingDrawerComponent } from './setting-drawer/setting-drawer.component';
 
 @Component({
@@ -27,13 +27,13 @@ import { SettingDrawerComponent } from './setting-drawer/setting-drawer.componen
 })
 export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
-  @ViewChild('settingHost', { read: ViewContainerRef })
+  @ViewChild('settingHost', { read: ViewContainerRef, static: true })
   private settingHost: ViewContainerRef;
   isFetching = false;
 
   constructor(
     router: Router,
-    _message: NzMessageService,
+    msgSrv: NzMessageService,
     private resolver: ComponentFactoryResolver,
     private settings: SettingsService,
     private el: ElementRef,
@@ -41,23 +41,25 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
     @Inject(DOCUMENT) private doc: any,
   ) {
     // scroll to top in change page
-    router.events.pipe(takeUntil(this.unsubscribe$)).subscribe(evt => {
+    router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((evt) => {
       if (!this.isFetching && evt instanceof RouteConfigLoadStart) {
         this.isFetching = true;
       }
       if (evt instanceof NavigationError || evt instanceof NavigationCancel) {
         this.isFetching = false;
         if (evt instanceof NavigationError) {
-          _message.error(`无法加载${evt.url}路由`, { nzDuration: 1000 * 3 });
+          msgSrv.error(`无法加载${evt.url}路由`, { nzDuration: 1000 * 3 });
         }
         return;
       }
-      if (!(evt instanceof NavigationEnd)) {
+      if (!(evt instanceof NavigationEnd || evt instanceof RouteConfigLoadEnd)) {
         return;
       }
-      setTimeout(() => {
-        this.isFetching = false;
-      }, 100);
+      if (this.isFetching) {
+        setTimeout(() => {
+          this.isFetching = false;
+        }, 100);
+      }
     });
   }
 
@@ -75,7 +77,7 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit(): void {
     // Setting componet for only developer
-    if (!environment.production) {
+    if (true) {
       setTimeout(() => {
         const settingFactory = this.resolver.resolveComponentFactory(SettingDrawerComponent);
         this.settingHost.createComponent(settingFactory);

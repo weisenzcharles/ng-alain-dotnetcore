@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, NgZone, Inject, ChangeDetectorRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { NzMessageService } from 'ng-zorro-antd';
-import { LazyService, copy, deepCopy } from '@delon/util';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, NgZone } from '@angular/core';
 import { SettingsService } from '@delon/theme';
+import { copy, deepCopy, LazyService } from '@delon/util';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 const ALAINDEFAULTVAR = 'alain-default-vars';
 const DEFAULT_COLORS = [
@@ -37,6 +37,10 @@ const DEFAULT_COLORS = [
   {
     key: 'purple',
     color: '#722ED1',
+  },
+  {
+    key: 'black',
+    color: '#001529',
   },
 ];
 const DEFAULT_VARS = {
@@ -197,6 +201,7 @@ const DEFAULT_VARS = {
   // tslint:disable-next-line:component-selector
   selector: 'setting-drawer',
   templateUrl: './setting-drawer.component.html',
+  // tslint:disable-next-line: no-host-metadata-property
   host: {
     '[class.setting-drawer]': 'true',
   },
@@ -234,7 +239,9 @@ export class SettingDrawerComponent {
   }
 
   private loadLess(): Promise<void> {
-    if (this.loadedLess) return Promise.resolve();
+    if (this.loadedLess) {
+      return Promise.resolve();
+    }
     return this.lazy
       .loadStyle('./assets/alain-default.less', 'stylesheet/less')
       .then(() => {
@@ -259,7 +266,7 @@ export class SettingDrawerComponent {
     const vars: any = {
       [`@primary-color`]: color,
     };
-    validKeys.filter(key => key !== 'primary-color').forEach(key => (vars[`@${key}`] = data[key].value));
+    validKeys.filter((key) => key !== 'primary-color').forEach((key) => (vars[`@${key}`] = data[key].value));
     this.setLayout(ALAINDEFAULTVAR, vars);
     return vars;
   }
@@ -287,8 +294,8 @@ export class SettingDrawerComponent {
   changeColor(color: string) {
     this.color = color;
     Object.keys(DEFAULT_VARS)
-      .filter(key => DEFAULT_VARS[key].default === '@primary-color')
-      .forEach(key => delete this.cachedData[`@${key}`]);
+      .filter((key) => DEFAULT_VARS[key].default === '@primary-color')
+      .forEach((key) => delete this.cachedData[`@${key}`]);
     this.resetData(this.cachedData, false);
   }
 
@@ -296,11 +303,11 @@ export class SettingDrawerComponent {
     this.settingSrv.setLayout(name, value);
   }
 
-  private resetData(nowData?: Object, run = true) {
+  private resetData(nowData?: {}, run = true) {
     nowData = nowData || {};
     const data = deepCopy(DEFAULT_VARS);
-    Object.keys(data).forEach(key => {
-      const value = nowData![`@${key}`] || data[key].default || '';
+    Object.keys(data).forEach((key) => {
+      const value = nowData[`@${key}`] || data[key].default || '';
       data[key].value = value === `@primary-color` ? this.color : value;
     });
     this.data = data;
@@ -311,7 +318,7 @@ export class SettingDrawerComponent {
   }
 
   private get validKeys(): string[] {
-    return Object.keys(this.data).filter(key => this.data[key].value !== this.data[key].default);
+    return Object.keys(this.data).filter((key) => this.data[key].value !== this.data[key].default);
   }
 
   apply() {
@@ -327,7 +334,7 @@ export class SettingDrawerComponent {
   copyVar() {
     const vars = this.genVars();
     const copyContent = Object.keys(vars)
-      .map(key => `${key}: ${vars[key]};`)
+      .map((key) => `${key}: ${vars[key]};`)
       .join('\n');
     copy(copyContent);
     this.msg.success('Copy success');

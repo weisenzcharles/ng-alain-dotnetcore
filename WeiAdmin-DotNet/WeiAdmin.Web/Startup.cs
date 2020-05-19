@@ -1,14 +1,13 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.Extensions.Hosting;
+using WeiAdmin.Web.Models;
 
-namespace Ng_Alain.Web
+namespace WeiAdmin.Web
 {
     public class Startup
     {
@@ -22,32 +21,7 @@ namespace Ng_Alain.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            // 添加 jwt 验证
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        // 是否验证 SecurityKey
-                        ValidateIssuerSigningKey = true,
-                        // 是否验证失效时间
-                        ValidateLifetime = true,
-                        // 是否验证 Audience
-                        ValidateAudience = true,
-                        // 验证 Audience
-                        ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
-                        // 是否验证 Issuer
-                        ValidateIssuer = true,
-                        // 验证 Issuer，这两项和前面签发 jwt 的设置一致
-                        ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
-                        // 获取 SecurityKey
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
-                    };
-                });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -56,7 +30,7 @@ namespace Ng_Alain.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -65,16 +39,31 @@ namespace Ng_Alain.Web
             else
             {
                 app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseHttpsRedirection();
 
-            app.UseMvc(routes =>
+            var options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("index.html");
+            app.UseDefaultFiles(options);
+
+            app.UseStaticFiles();
+
+            if (!env.IsDevelopment())
             {
-                routes.MapRoute(
+                app.UseSpaStaticFiles();
+            }
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -89,6 +78,40 @@ namespace Ng_Alain.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+#if DEBUG
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .AllowAnyOrigin();
+            });
+#endif
+            //app.Use(async (context, next) =>
+            //{
+            //    if (!context.Request.Path.ToString().StartsWith("/api/passport"))
+            //    {
+            //        var _token = "";
+            //        if (context.Request.Headers.TryGetValue("token", out var tokens) && tokens.Count > 0)
+            //        {
+            //            _token = tokens[0];
+            //        }
+            //        if (_token != "123456789")
+            //        {
+            //            context.Response.StatusCode = 401;
+            //            return;
+            //        }
+
+            //        var user = new User
+            //        {
+            //            Id = 1,
+            //            Name = "cipchk"
+            //        };
+            //        context.Items.Add("token", _token);
+            //        context.Items.Add("user", user);
+            //    }
+            //    await next();
+            //});
+
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiAdmin.Web", "WeiAdmin.Web\WeiAdmin.Web.csproj", "{F2F25088-156C-4A1B-92DD-10A1B8846C34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiAdmin.Web", "WeiAdmin.Web\WeiAdmin.Web.csproj", "{CE77434F-E3A6-4393-98C1-BB65AA093C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F2F25088-156C-4A1B-92DD-10A1B8846C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2F25088-156C-4A1B-92DD-10A1B8846C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2F25088-156C-4A1B-92DD-10A1B8846C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2F25088-156C-4A1B-92DD-10A1B8846C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE77434F-E3A6-4393-98C1-BB65AA093C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE77434F-E3A6-4393-98C1-BB65AA093C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE77434F-E3A6-4393-98C1-BB65AA093C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE77434F-E3A6-4393-98C1-BB65AA093C29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

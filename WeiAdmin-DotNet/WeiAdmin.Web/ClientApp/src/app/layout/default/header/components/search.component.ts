@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'header-search',
@@ -9,7 +9,7 @@ import { Component, HostBinding, Input, ElementRef, AfterViewInit, ChangeDetecti
         [(ngModel)]="q"
         (focus)="qFocus()"
         (blur)="qBlur()"
-        [placeholder]="'menu.search.placeholder' | translate"
+        [placeholder]="'搜索：员工、文件、照片等'"
       />
     </nz-input-group>
   `,
@@ -28,7 +28,9 @@ export class HeaderSearchComponent implements AfterViewInit {
 
   @Input()
   set toggleChange(value: boolean) {
-    if (typeof value === 'undefined') return;
+    if (typeof value === 'undefined') {
+      return;
+    }
     this.searchToggled = true;
     this.focus = true;
     setTimeout(() => this.qIpt.focus(), 300);
