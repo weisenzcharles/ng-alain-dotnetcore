@@ -8,11 +8,11 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.ngalain</groupId>
-    <artifactId>admin</artifactId>
+    <groupId>com.weisenz</groupId>
+    <artifactId>weiadmin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ng-alain-admin</name>
-    <description>Ng Alain Admin project for Spring Boot</description>
+    <name>wei-admin</name>
+    <description>Wei Admin project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -51,8 +51,8 @@
         </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <version>4.0</version>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.1.0.jre8</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
