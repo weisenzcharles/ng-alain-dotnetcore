@@ -1,7 +1,7 @@
 debug: true
 logging:
   level:
-    com.ngalain.admin: DEBUG
+    com.weisenz.weiadmin: DEBUG
     org.springframework.web: DEBUG
 server:
   port: 8888
@@ -10,7 +10,7 @@ spring:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/web/
   datasource:
     user:
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       jdbc-url: jdbc:mysql://127.0.0.1:3306/user?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
       username: root
       password: test123$
