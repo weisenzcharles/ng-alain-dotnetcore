@@ -1,0 +1,13 @@
+<result [title]="title" description="激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。" type="success">
+  <ng-template #title>
+    <div class="title" style="font-size: 20px;">
+      你的账户：{{email}} 注册成功
+    </div>
+  </ng-template>
+  <button (click)="msg.success('email')" [nzType]="'primary'" nz-button nzSize="large">
+    查看邮箱
+  </button>
+  <button nz-button nzSize="large" routerLink="/">
+    返回首页
+  </button>
+</result>

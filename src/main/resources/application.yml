@@ -1,0 +1,19 @@
+debug: true
+logging:
+    level:
+        org.charles.weiadmin: DEBUG
+        org.springframework.web: DEBUG
+server:
+    port: 8888
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+        url: jdbc:mysql://192.168.0.86:3306/weiadmin?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    web:
+        resources:
+            static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/web/
+mybatis:
+    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath:mybatis/mapper/*.xml

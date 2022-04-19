@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.charles.weiadmin.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="org.charles.weiadmin.model.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="status" property="status" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+
+    <select id="selectUserById" resultMap="UserResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <select id="selectUserByUsername" resultMap="UserResultMap" parameterType="java.lang.String">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <select id="selectUserByNickname" resultMap="UserResultMap" parameterType="java.lang.String">
+        SELECT * FROM user WHERE nickname = #{nickname}
+    </select>
+
+    <select id="selectUserByEmail" resultMap="UserResultMap" parameterType="java.lang.String">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
+    <select id="selectUserByPhone" resultMap="UserResultMap" parameterType="java.lang.String">
+        SELECT * FROM user WHERE phone = #{phone}
+    </select>
+
+    <select id="selectUserByStatus" resultMap="UserResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM user WHERE status = #{status}
+    </select>
+
+    <select id="selectUserByCreateTime" resultMap="UserResultMap" parameterType="java.util.Date">
+        SELECT * FROM user WHERE create_time = #{createTime}
+    </select>
+
+    <select id="selectUserByUpdateTime" resultMap="UserResultMap" parameterType="java.util.Date">
+        SELECT * FROM user WHERE update_time = #{updateTime}
+</mapper>

@@ -1,0 +1,21 @@
+<div class="ant-card width-lg" style="margin: 0 auto;">
+  <div class="ant-card-body">
+    <div class="avatar">
+      <nz-avatar [nzSrc]="settings.user.avatar" nzIcon="user" nzSize="large"></nz-avatar>
+    </div>
+    <form (ngSubmit)="submit()" [formGroup]="f" class="mt-md" nz-form role="form">
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="'请输入密码！'">
+          <nz-input-group nzSuffixIcon="lock">
+            <input formControlName="password" nz-input type="password"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-row nzAlign="middle" nzType="flex">
+        <nz-col [nzOffset]="12" [nzSpan]="12" style="text-align:right;">
+          <button [disabled]="!f.valid" nz-button nzType="primary">锁屏</button>
+        </nz-col>
+      </nz-row>
+    </form>
+  </div>
+</div>
